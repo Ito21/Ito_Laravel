@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Post;
+//use App\Post;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
@@ -13,8 +13,11 @@ class Post extends Model
     * @param Post Postモデル
     * @return array Postモデルリスト
     */
+    
+    /**
     public function index(Post $post)
     {
         return $post->get();
     }
+    */
 }
