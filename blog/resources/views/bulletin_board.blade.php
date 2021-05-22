@@ -1,3 +1,23 @@
+
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -6,7 +26,7 @@
             <li><a href="{{ route('register') }}">アカウント</a>
                 <ul>
                     <li><a href="{{ route('login') }}">ログイン</a></li>
-                    <li><a href="#">ログアウト</a></li>
+                    <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ログアウト</a></li>
                     <li><a href="#">プロフィール</a></li>
                 </ul>
             </li>
@@ -34,8 +54,6 @@
                 <ul>
                     <li><a href="#">検索機能(準備中)</a></li>
                     <li><a href="#">各機能説明(準備中)</a></li>
-                    <li><a href="/post">Blog</a></li>
-                    <li><a href="/welcome">welcome</a></li>
                 </ul>
             </li>
         </ul>
@@ -92,23 +110,61 @@
             }
         </style>
         <meta charset="utf-8">
-        <title>Blog</title>
+        <title>FEH情報共有サイト</title>
         <!-- Fonts -->
-        <link href="https:/ /fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
     <body>
-        <h1>Blog Name</h1>
-        [<a href='/posts/create'>create</a>]
-        <div class='posts'>
-            @foreach ($posts as $post)
-                <div class='post'>
-                    <h3><a href="/posts/{{ $post->id }}">{{ $post->title }}</a>
-                    <p class='body'>{{ $post->body }}</p>
-                </div>
+        <h1 class="logo_bulletin_board">FIRE EMBLEM<br>Heroes<br>掲示板</h1>
+            @foreach ($bulletin_boards as $bulletin_board)
+                <h3><a href="/bulletin_board/{{ $bulletin_board->id }}">{{ $bulletin_board->title }}</a></td>
+                <p class='bb_coment'>{{ $bulletin_board->comment }}</p>
+                    <p class='bb_type'>
+                    <?php
+                        if ( $bulletin_board->type == 1) {
+                            ?> 雑談 <?php ;
+                        }
+                    ?>
+                    <?php
+                        if ( $bulletin_board->type == 2) {
+                            ?> 質問 <?php ;
+                        }
+                    ?>
+                    <?php
+                        if ( $bulletin_board->type == 3) {
+                            ?> その他 <?php ;
+                        }
+                    ?>
+                </p>
             @endforeach
-        </div>
-        <div class='paginate'>
-            {{ $posts->links() }}
-        </div>
+        <h1 links>
+            {{ $bulletin_boards->links() }}
+        </h1>
+        <style>
+            h1.logo_bulletin_board {
+                padding:0px;
+                text-align:center;
+                font-weight:normal;
+                color:#ffd700;
+                display:block;
+                font-size:60px;
+                line-height:1;
+                letter-spacing:1px;
+                text-shadow:1px 1px 3px #808080, -1px 1px 3px #ccc, 1px -1px 3px #ccc, -1px -1px 3px #ccc;
+            }
+            body {
+                color: #000000;
+                background-color: #6495ed;
+            }
+            .pagination {
+                display: inline-block;
+                list-style-type: none;
+                text-decoration: none;
+                letter-spacing: 10px;
+                padding:2em;
+                display:flex;
+                justify-content:center;
+            }
+        </style>
     </body>
 </html>

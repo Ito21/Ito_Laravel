@@ -1,3 +1,23 @@
+
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -6,7 +26,7 @@
             <li><a href="{{ route('register') }}">アカウント</a>
                 <ul>
                     <li><a href="{{ route('login') }}">ログイン</a></li>
-                    <li><a href="#">ログアウト</a></li>
+                    <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ログアウト</a></li>
                     <li><a href="#">プロフィール</a></li>
                 </ul>
             </li>
@@ -92,23 +112,28 @@
             }
         </style>
         <meta charset="utf-8">
-        <title>Blog</title>
+        <title>FEH情報共有サイト</title>
         <!-- Fonts -->
-        <link href="https:/ /fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
     <body>
-        <h1>Blog Name</h1>
-        [<a href='/posts/create'>create</a>]
-        <div class='posts'>
-            @foreach ($posts as $post)
-                <div class='post'>
-                    <h3><a href="/posts/{{ $post->id }}">{{ $post->title }}</a>
-                    <p class='body'>{{ $post->body }}</p>
-                </div>
-            @endforeach
-        </div>
-        <div class='paginate'>
-            {{ $posts->links() }}
-        </div>
+        <h1 class="logo">FIRE EMBLEM<br>Heroes<br>情報共有サイト</h1>
+        <style>
+            h1.logo {
+                padding:0px;
+                text-align:center;
+                font-weight:normal;
+                color:#ffd700;
+                display:block;
+                font-size:100px;
+                line-height:1;
+                letter-spacing:1px;
+                text-shadow:1px 1px 3px #808080, -1px 1px 3px #ccc, 1px -1px 3px #ccc, -1px -1px 3px #ccc;
+            }
+            body {
+                color: #000000;
+                background-color: #6495ed;
+            }
+        </style>
     </body>
 </html>

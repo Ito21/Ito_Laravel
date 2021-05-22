@@ -3,27 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Post;
-use App\Http\Requests\PostRequest; 
-//use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
 {
-    /**
-    * Post一覧を表示する
-    * 
-    * @param Post Postモデル
-    * @return array Postモデルリスト
-    */
     public function index(Post $post)
     {
         return view('index')->with(['posts' => $post->getPaginateByLimit()]);
     } 
-    /**
-     * 特定IDのpostを表示する
-     *
-     * @params Object Post // 引数の$postはid=1のPostインスタンス
-     * @return Reposnse post view
-     */
+    
     public function show(Post $post)
     {
         return view('show')->with(['post' => $post]);
@@ -57,6 +45,6 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect('/');
+        return redirect('/post');
     }
 }
