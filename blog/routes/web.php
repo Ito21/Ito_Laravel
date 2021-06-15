@@ -25,9 +25,12 @@ Route::get('/welcome', 'MainController@welcome');
 Route::get('/data', 'MainController@data');
 
 Route::get('/bulletin_board', 'Bulletin_boardController@bulletin_board');
-Route::get('/bulletin_board/{bulletin_board}', 'Bulletin_boardController@show');
-Route::get('/bulletin_board/create', 'Bulletin_boardController@create');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/bulletin_board/create', 'Bulletin_boardController@bulletin_board_create');
+});
+Route::get('/bulletin_board/{bulletin_board}', 'Bulletin_boardController@bulletin_board_show');
 Route::post('/bulletin_boards', 'Bulletin_boardController@store');
+Route::post('/bb_replys', 'Bulletin_boardController@reply_store');
 
 Route::get('/data/chara', 'CharaController@chara');
 Route::get('/data/chara/{chara}', 'CharaController@chara_show');

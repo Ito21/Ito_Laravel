@@ -116,26 +116,32 @@
     </head>
     <body>
         <h1 class="logo_bulletin_board">FIRE EMBLEM<br>Heroes<br>掲示板</h1>
+            <h2>掲示板作成は<a href='/bulletin_board/create'>こちら</a>(ログイン中のみ使用可能)</h2>
             @foreach ($bulletin_boards as $bulletin_board)
-                <h3><a href="/bulletin_board/{{ $bulletin_board->id }}">{{ $bulletin_board->title }}</a></td>
-                <p class='bb_coment'>{{ $bulletin_board->comment }}</p>
-                    <p class='bb_type'>
-                    <?php
-                        if ( $bulletin_board->type == 1) {
-                            ?> 雑談 <?php ;
-                        }
-                    ?>
-                    <?php
-                        if ( $bulletin_board->type == 2) {
-                            ?> 質問 <?php ;
-                        }
-                    ?>
-                    <?php
-                        if ( $bulletin_board->type == 3) {
-                            ?> その他 <?php ;
-                        }
-                    ?>
-                </p>
+                <h3 class="bb">
+                <p class='user_name'>{{ $bulletin_board->user->id }}</p>
+                    <a href="/bulletin_board/{{ $bulletin_board->id }}">{{ $bulletin_board->title }}</a>
+                    <p class='user_name'>作成者 {{ $bulletin_board->user->name }}</p>
+                    <p class='reply_number'>コメント {{ $bulletin_board->reply_number }}件</p>
+                        <p class='bb_type'>種類：
+                        <?php
+                            if ( $bulletin_board->type == 1) {
+                                ?> 雑談 <?php ;
+                            }
+                        ?>
+                        <?php
+                            if ( $bulletin_board->type == 2) {
+                                ?> 質問 <?php ;
+                            }
+                        ?>
+                        <?php
+                            if ( $bulletin_board->type == 3) {
+                                ?> その他 <?php ;
+                            }
+                        ?>
+                    </p>
+                </h3>
+                </br>
             @endforeach
         <h1 links>
             {{ $bulletin_boards->links() }}
@@ -164,6 +170,15 @@
                 padding:2em;
                 display:flex;
                 justify-content:center;
+            }
+            h3.bb {
+                text-align:center;
+                font-weight:normal;
+                background-color:#4682b4;
+                display:block;
+                line-height:1;
+                letter-spacing:1px;
+                width: 500px;
             }
         </style>
     </body>

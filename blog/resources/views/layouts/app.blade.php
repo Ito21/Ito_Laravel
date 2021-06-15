@@ -36,7 +36,6 @@
                         @guest
                         @else
                         <h1>{{ Auth::user()->name }} さん<br>ログイン中</h1>
-                        <h2>掲示板作成は<a href='/bulletin_board/create'>こちら</a></h2>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>

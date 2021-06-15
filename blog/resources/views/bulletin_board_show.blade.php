@@ -116,29 +116,67 @@
     </head>
     <body>
         <h1 class="logo_bulletin_board">FIRE EMBLEM<br>Heroes<br>掲示板</h1>
-        <form action="/bulletin_boards" method="POST">
-            @csrf
-            <div class="title">
-                <h2>掲示板のタイトル</h2>
-                <input type="text" name="bulletin_board[title]" placeholder="タイトル" value="{{ old('bulletin_board.title') }}"/>
-                <p class="title__error" style="color:red">{{ $errors->first('bulletin_board.title') }}</p>
-            </div>
-            <div class="body">
-                <h2>掲示板の内容</h2>
-                <textarea name="bulletin_board[comment]" placeholder="よろしくお願いします。">{{ old('bulletin_board.comment') }}</textarea>
-                <p class="comment__error" style="color:red">{{ $errors->first('bulletin_board.comment') }}</p>
-            </div>
-            <input type="hidden" name="bulletin_board[user_id]" value='{{ Auth::user()->id }}'>
-            <h2>掲示板の分類</h2>
-            <select name="bulletin_board[type]">
-                <option value = "1">雑談</option>
-                <option value = "2">質問</option>
-                <option value = "3">その他</option>
-            </select>
-            <input type="hidden" name="bulletin_board[reply_number]" value='0'>
-            <h2>入力完了後に作成ボタンを押してください。</h2>
-            <input type="submit" value="作成"/>
-        </form>
+            <h2>掲示板作成は<a href='/bulletin_board/create'>こちら</a>(ログイン中のみ使用可能)</h2>
+                <h3 class="bb">
+                    <p class='user_name'>{{ $bulletin_board->user->id }}</p>
+                    <a href="/bulletin_board/{{ $bulletin_board->id }}">{{ $bulletin_board->title }}</a>
+                    <p class='user_name'>作成者 {{ $bulletin_board->user->name }}</p>
+                    <p class='reply_number'>コメント {{ $bulletin_board->reply_number }}件</p>
+                        <p class='bb_type'>種類：
+                        <?php
+                            if ( $bulletin_board->type == 1) {
+                                ?> 雑談 <?php ;
+                            }
+                        ?>
+                        <?php
+                            if ( $bulletin_board->type == 2) {
+                                ?> 質問 <?php ;
+                            }
+                        ?>
+                        <?php
+                            if ( $bulletin_board->type == 3) {
+                                ?> その他 <?php ;
+                            }
+                        ?>
+                        </p>
+                </h3>
+                </br>
+            @foreach ($bulletin_board->bb_reply as $bb_reply)
+                <h3 class="bb_reply">
+                    <p class='user_number'>{{ $bb_reply->number }}</p>
+                    <p class='user_name'>{{ $bb_reply->user->name }}</p>
+                    <p class='user_comment'>{{ $bb_reply->comment }}</p>
+                </h3>
+                </br>
+            @endforeach
+        <h1 links>
+            {{ $bb_reply->links() }}
+        </h1>
+        </br>
+        <h3>
+        <?php
+            if (is_null(Auth::user()->id)) {
+                ?> コメントの投稿にはログインが必要です。 <?php ;
+            }else {
+                ?> 
+                
+                    <form action="/bb_replys" method="POST">
+                        @csrf
+                        <input type="hidden" name="bb_reply[bulletin_board_id]" value='{{ $bulletin_board->id }}'>
+                        <div class="body">
+                            <h2>コメントの内容</h2>
+                            <textarea name="bb_reply[comment]" placeholder="よろしくお願いします。">{{ old('bb_reply.comment') }}</textarea>
+                            <p class="comment__error" style="color:red">{{ $errors->first('bb_reply.comment') }}</p>
+                        </div>
+                        <input type="hidden" name="bb_reply[user_id]" value='{{ Auth::user()->id }}'>
+                        <input type="hidden" name="bb_reply[number]" value='0'>
+                        <h2>入力完了後に投稿ボタンを押してください。</h2>
+                        <input type="submit" value="投稿"/>
+                    </form>
+                <?php ;
+            }
+        ?>
+        </h3>
         <style>
             h1.logo_bulletin_board {
                 padding:0px;
@@ -154,6 +192,31 @@
             body {
                 color: #000000;
                 background-color: #6495ed;
+            }
+            .pagination {
+                display: inline-block;
+                list-style-type: none;
+                text-decoration: none;
+                letter-spacing: 10px;
+                padding:2em;
+                display:flex;
+                justify-content:center;
+            }
+            h3.bb {
+                text-align:center;
+                font-weight:normal;
+                display:block;
+                line-height:1;
+                letter-spacing:1px;
+            }
+            h3.bb_reply {
+                text-align:center;
+                font-weight:normal;
+                background-color:#4682b4;
+                display:block;
+                line-height:1;
+                letter-spacing:1px;
+                width: 500px;
             }
         </style>
     </body>
