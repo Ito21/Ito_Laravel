@@ -116,13 +116,12 @@
     </head>
     <body>
         <h1 class="logo_bulletin_board">FIRE EMBLEM<br>Heroes<br>掲示板</h1>
-            <h2>掲示板作成は<a href='/bulletin_board/create'>こちら</a>(ログイン中のみ使用可能)</h2>
-                <h3 class="bb">
-                    <p class='user_name'>{{ $bulletin_board->user->id }}</p>
-                    <a href="/bulletin_board/{{ $bulletin_board->id }}">{{ $bulletin_board->title }}</a>
-                    <p class='user_name'>作成者 {{ $bulletin_board->user->name }}</p>
-                    <p class='reply_number'>コメント {{ $bulletin_board->reply_number }}件</p>
-                        <p class='bb_type'>種類：
+        <HR SIZE="2", color="000000">
+        <h2 class="bb">
+            <p class='bulletin_board_id'>掲示板番号：{{ $bulletin_board->id }}</p>
+            <p class='bulletin_board_title'>{{ $bulletin_board->title }}</p>
+            <p class='user_name'>作成者 {{ $bulletin_board->user->name }}</p>
+                <p class='bb_type'>種類：
                         <?php
                             if ( $bulletin_board->type == 1) {
                                 ?> 雑談 <?php ;
@@ -139,28 +138,39 @@
                             }
                         ?>
                         </p>
-                </h3>
-                </br>
-            @foreach ($bulletin_board->bb_reply as $bb_reply)
-                <h3 class="bb_reply">
+        </h2>
+        <HR SIZE="2", color="000000">
+        </br>
+        <h3 class="bb">
+            <p class='bulletin_board_comment'>{{ $bulletin_board->comment }}</p>
+        </h3>
+        </br>
+        <HR SIZE="2", color="000000">
+        <h2 class="bb">
+            <p class='bb_comments'>コメント {{ $bulletin_board->reply_number }}件</p>
+        </h2>
+            @foreach ($bb_replies as $bb_reply)
+                <div class="bb_reply">
+                    <h2>
                     <p class='user_number'>{{ $bb_reply->number }}</p>
                     <p class='user_name'>{{ $bb_reply->user->name }}</p>
+                    </h2>
                     <p class='user_comment'>{{ $bb_reply->comment }}</p>
-                </h3>
+                </div>
                 </br>
             @endforeach
         <h1 links>
-            {{ $bb_reply->links() }}
+            {{ $bb_replies->links() }}
         </h1>
         </br>
+        <HR SIZE="2", color="000000">
         <h3>
         <?php
-            if (is_null(Auth::user()->id)) {
+            if (is_null(Auth::user())) {
                 ?> コメントの投稿にはログインが必要です。 <?php ;
             }else {
                 ?> 
-                
-                    <form action="/bb_replys" method="POST">
+                    <form action="/bb_replies" method="POST">
                         @csrf
                         <input type="hidden" name="bb_reply[bulletin_board_id]" value='{{ $bulletin_board->id }}'>
                         <div class="body">
@@ -169,7 +179,7 @@
                             <p class="comment__error" style="color:red">{{ $errors->first('bb_reply.comment') }}</p>
                         </div>
                         <input type="hidden" name="bb_reply[user_id]" value='{{ Auth::user()->id }}'>
-                        <input type="hidden" name="bb_reply[number]" value='0'>
+                        <input type="hidden" name="bb_reply[number]" value=' <?php echo $bulletin_board->reply_number + 1 ?> '>
                         <h2>入力完了後に投稿ボタンを押してください。</h2>
                         <input type="submit" value="投稿"/>
                     </form>
@@ -202,6 +212,13 @@
                 display:flex;
                 justify-content:center;
             }
+            h2.bb {
+                text-align:center;
+                font-weight:normal;
+                display:block;
+                line-height:1;
+                letter-spacing:1px;
+            }
             h3.bb {
                 text-align:center;
                 font-weight:normal;
@@ -209,10 +226,13 @@
                 line-height:1;
                 letter-spacing:1px;
             }
-            h3.bb_reply {
+            div.bb_reply {
                 text-align:center;
                 font-weight:normal;
                 background-color:#4682b4;
+                border-color:#000080;
+                border-style:solid;
+                border-width:5px;
                 display:block;
                 line-height:1;
                 letter-spacing:1px;

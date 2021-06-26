@@ -117,9 +117,10 @@
     <body>
         <h1 class="logo_bulletin_board">FIRE EMBLEM<br>Heroes<br>掲示板</h1>
             <h2>掲示板作成は<a href='/bulletin_board/create'>こちら</a>(ログイン中のみ使用可能)</h2>
+        <HR SIZE="2", color="000000">
             @foreach ($bulletin_boards as $bulletin_board)
                 <h3 class="bb">
-                <p class='user_name'>{{ $bulletin_board->user->id }}</p>
+                <p class='user_name'>{{ $bulletin_board->id }}</p>
                     <a href="/bulletin_board/{{ $bulletin_board->id }}">{{ $bulletin_board->title }}</a>
                     <p class='user_name'>作成者 {{ $bulletin_board->user->name }}</p>
                     <p class='reply_number'>コメント {{ $bulletin_board->reply_number }}件</p>
@@ -141,7 +142,6 @@
                         ?>
                     </p>
                 </h3>
-                </br>
             @endforeach
         <h1 links>
             {{ $bulletin_boards->links() }}
@@ -175,6 +175,9 @@
                 text-align:center;
                 font-weight:normal;
                 background-color:#4682b4;
+                border-color:#000080;
+                border-style:solid;
+                border-width:5px;
                 display:block;
                 line-height:1;
                 letter-spacing:1px;

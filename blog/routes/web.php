@@ -30,7 +30,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 Route::get('/bulletin_board/{bulletin_board}', 'Bulletin_boardController@bulletin_board_show');
 Route::post('/bulletin_boards', 'Bulletin_boardController@store');
-Route::post('/bb_replys', 'Bulletin_boardController@reply_store');
+Route::post('/bb_replies', 'Bulletin_boardController@reply_store');
 
 Route::get('/data/chara', 'CharaController@chara');
 Route::get('/data/chara/{chara}', 'CharaController@chara_show');
@@ -43,7 +43,6 @@ Route::delete('/posts/{post}', 'PostController@destroy');
 Route::get('/posts/{post}', 'PostController@show');
 Route::post('/posts', 'PostController@store');
 
-Route::get('/home', 'HomeController@index')->name('home');
 Route::middleware('verified')->group(function(){
     
 });

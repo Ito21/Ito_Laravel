@@ -17,13 +17,13 @@ class Bulletin_board extends Model
     
 	public function getPaginateByLimit(int $limit_count = 10)
     {
-        return $this->orderBy('updated_at', 'DESC')->paginate($limit_count);
+        return $this->orderBy('created_at', 'DESC')->paginate($limit_count);
     }
     
     public function user() {
         return $this->belongsTo('App\User');
     }
-    public function bb_replys() {
+    public function bb_replies() {
         return $this->hasMany('App\Bb_reply');
     }
 

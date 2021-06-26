@@ -40,7 +40,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function bulletin_boards() {
         return $this->hasMany('App\Bulletin_board');
     }
-    public function bb_replys() {
+    public function bb_replies() {
         return $this->hasMany('App\Bb_reply');
     }
 }

@@ -35,6 +35,8 @@
                         <!-- Authentication Links -->
                         @guest
                         @else
+                        </br>
+                        <HR SIZE="2", color="000000">
                         <h1>{{ Auth::user()->name }} さん<br>ログイン中</h1>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
