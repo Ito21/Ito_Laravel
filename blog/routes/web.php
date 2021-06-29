@@ -43,6 +43,7 @@ Route::delete('/posts/{post}', 'PostController@destroy');
 Route::get('/posts/{post}', 'PostController@show');
 Route::post('/posts', 'PostController@store');
 
+Route::get('/home', 'HomeController@index')->name('home');
 Route::middleware('verified')->group(function(){
     
 });
