@@ -4,6 +4,7 @@ namespace App;
 
 //use App\Post;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
@@ -13,6 +14,7 @@ class Post extends Model
     * @param Post Postモデル
     * @return array Postモデルリスト
     */
+    use SoftDeletes;
     
     protected $fillable = [
         'title',

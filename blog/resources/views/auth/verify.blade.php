@@ -1,3 +1,32 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('メールアドレスをご確認ください。') }}</div>
+
+                <div class="card-body">
+                    @if (session('resent'))
+                        <div class="alert alert-success" role="alert">
+                            {{ __('パスワード再設定のリンクがあなたのメールアドレスに送信されました。 ') }}
+                        </div>
+                    @endif
+
+                    {{ __('パスワード再設定のメールを確認してください。 ') }}
+                    {{ __('メールが届かない場合') }},
+                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                        @csrf
+                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('ここをクリックしてください') }}</button>.
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -34,8 +63,6 @@
                 <ul>
                     <li><a href="#">検索機能(準備中)</a></li>
                     <li><a href="#">各機能説明(準備中)</a></li>
-                    <li><a href="/post">Blog</a></li>
-                    <li><a href="/welcome">welcome</a></li>
                 </ul>
             </li>
         </ul>
@@ -92,23 +119,16 @@
             }
         </style>
         <meta charset="utf-8">
-        <title>Blog</title>
+        <title>FEH情報共有サイト</title>
         <!-- Fonts -->
-        <link href="https:/ /fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
     <body>
-        <h1>Blog Name</h1>
-        [<a href='/posts/create'>create</a>]
-        <div class='posts'>
-            @foreach ($posts as $post)
-                <div class='post'>
-                    <h3><a href="/posts/{{ $post->id }}">{{ $post->title }}</a>
-                    <p class='body'>{{ $post->body }}</p>
-                </div>
-            @endforeach
-        </div>
-        <div class='paginate'>
-            {{ $posts->links() }}
-        </div>
+        <style>
+            body {
+                color: #000000;
+                background-color: #6495ed;
+            }
+        </style>
     </body>
 </html>
